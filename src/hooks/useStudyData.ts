@@ -117,18 +117,24 @@ export function useStudyData() {
     // Save to Supabase
     if (newHours === 0) {
       // Delete from DB
-      await supabase
+      const { error } = await supabase
         .from('study_logs')
         .delete()
         .eq('date', dateStr);
+      if (error) {
+        console.error('Error deleting from Supabase:', error);
+      }
     } else {
       // Upsert
-      await supabase
+      const { error } = await supabase
         .from('study_logs')
         .upsert({
           date: dateStr,
           hours: newHours
-        });
+        }, { onConflict: 'date' });
+      if (error) {
+        console.error('Error upserting to Supabase:', error);
+      }
     }
   }, [startDate, entries]);
 
