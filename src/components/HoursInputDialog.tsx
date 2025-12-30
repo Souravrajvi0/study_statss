@@ -54,7 +54,7 @@ export function HoursInputDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md rounded-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-display">
             <Clock className="w-5 h-5 text-primary" />
@@ -79,21 +79,21 @@ export function HoursInputDialog({
                 variant="outline"
                 size="icon"
                 onClick={handleDecrement}
-                className="h-12 w-12 rounded-xl"
+                className="h-12 w-12 rounded-xl shrink-0"
               >
                 <Minus className="h-5 w-5" />
               </Button>
               
-              <div className="relative">
+              <div className="relative flex items-center">
                 <Input
                   type="number"
                   step="0.5"
                   value={additionalHours}
                   onChange={(e) => setAdditionalHours(e.target.value)}
                   placeholder="0"
-                  className="w-28 h-16 text-center text-3xl font-semibold rounded-xl"
+                  className="w-32 h-16 text-center text-3xl font-semibold rounded-xl pr-12"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-medium pointer-events-none">
                   hrs
                 </span>
               </div>
@@ -102,21 +102,21 @@ export function HoursInputDialog({
                 variant="outline"
                 size="icon"
                 onClick={handleIncrement}
-                className="h-12 w-12 rounded-xl"
+                className="h-12 w-12 rounded-xl shrink-0"
               >
                 <Plus className="h-5 w-5" />
               </Button>
             </div>
 
             {/* Quick select buttons */}
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center gap-2 flex-wrap">
               {quickHours.map((h) => (
                 <Button
                   key={h}
                   variant={parseFloat(additionalHours) === h ? 'default' : 'secondary'}
                   size="sm"
                   onClick={() => setAdditionalHours(h.toString())}
-                  className="rounded-lg px-4"
+                  className="rounded-lg px-4 min-w-[60px]"
                 >
                   {h > 0 ? `+${h}h` : `${h}h`}
                 </Button>
@@ -125,7 +125,7 @@ export function HoursInputDialog({
           </div>
         )}
 
-        <DialogFooter className="gap-2">
+        <DialogFooter className="gap-2 sm:gap-2">
           <Button
             variant="ghost"
             onClick={() => onOpenChange(false)}

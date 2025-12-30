@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { format, differenceInDays, parseISO, startOfWeek, endOfWeek, subWeeks, isWithinInterval, isBefore, isAfter } from 'date-fns';
+import { format, differenceInDays, parseISO, startOfWeek, endOfWeek, subWeeks, isWithinInterval, isBefore, isAfter, startOfDay } from 'date-fns';
 import { supabase } from '../supabaseClient';
 
 export interface StudyEntry {
@@ -20,18 +20,47 @@ export function useStudyData() {
   const [startDate, setStartDate] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load start date from localStorage
+  // Load start date from data (Supabase first), fallback to localStorage, or initialize to today
   useEffect(() => {
-    const storedStartDate = localStorage.getItem(START_DATE_KEY);
-    if (storedStartDate) {
-      setStartDate(storedStartDate);
-    }
+    loadStartDate();
   }, []);
 
   // Load data from Supabase on mount
   useEffect(() => {
     loadEntries();
   }, []);
+
+  const loadStartDate = async () => {
+    try {
+      // Prefer the earliest date from Supabase study_logs
+      const { data, error } = await supabase
+        .from("study_logs")
+        .select("date")
+        .order("date", { ascending: true })
+        .limit(1);
+
+      if (!error && data && data.length > 0 && data[0]?.date) {
+        const earliest = data[0].date as string;
+        setStartDate(earliest);
+        localStorage.setItem(START_DATE_KEY, earliest);
+        return;
+      }
+    } catch (err) {
+      console.error("Error loading start date from Supabase:", err);
+    }
+
+    // Fallback: use localStorage if present
+    const storedStartDate = localStorage.getItem(START_DATE_KEY);
+    if (storedStartDate) {
+      setStartDate(storedStartDate);
+      return;
+    }
+
+    // Final fallback: today
+    const today = format(startOfDay(new Date()), "yyyy-MM-dd");
+    setStartDate(today);
+    localStorage.setItem(START_DATE_KEY, today);
+  };
 
   const loadEntries = async () => {
     const { data, error } = await supabase
@@ -55,10 +84,11 @@ export function useStudyData() {
   }, [startDate]);
 
   const logHours = useCallback(async (date: Date, additionalHours: number) => {
-    const dateStr = format(date, 'yyyy-MM-dd');
-    
-    // Set start date if this is the first entry
-    if (!startDate || isBefore(date, parseISO(startDate))) {
+    const dateStr = format(date, "yyyy-MM-dd");
+
+    // If no startDate yet, or this log is earlier than current startDate,
+    // move the start date back so averages include all history.
+    if (!startDate || isBefore(parseISO(dateStr), parseISO(startDate))) {
       setStartDate(dateStr);
     }
 

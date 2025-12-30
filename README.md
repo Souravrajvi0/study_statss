@@ -62,6 +62,34 @@ This project is built with:
 
 ## How can I deploy this project?
 
+### Deploy to Netlify
+
+1. **Push your code to GitHub** (if not already done)
+
+2. **Connect to Netlify:**
+   - Go to [Netlify](https://www.netlify.com/)
+   - Sign up/login and click "Add new site" → "Import an existing project"
+   - Connect your GitHub repository
+   - Netlify will auto-detect the build settings from `netlify.toml`
+
+3. **Set Environment Variables:**
+   - In Netlify dashboard, go to Site settings → Environment variables
+   - Add the following:
+     - `VITE_SUPABASE_URL` - Your Supabase project URL
+     - `VITE_SUPABASE_ANON_KEY` - Your Supabase anonymous key
+   - Get these from your Supabase project settings → API
+
+4. **Deploy:**
+   - Click "Deploy site"
+   - Your site will be live at `https://your-site-name.netlify.app`
+
+**Note:** The `netlify.toml` file is already configured with:
+- Build command: `npm run build`
+- Publish directory: `dist`
+- SPA routing redirects
+
+### Deploy via Lovable
+
 Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
