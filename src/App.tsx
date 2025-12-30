@@ -31,8 +31,17 @@ const MissingEnvVars = () => (
 );
 
 const App = () => {
+  // Debug: Log environment variables (will show in browser console)
+  console.log('Environment check:', {
+    hasUrl: !!supabaseUrl,
+    hasKey: !!supabaseAnonKey,
+    url: supabaseUrl ? `${supabaseUrl.substring(0, 20)}...` : 'missing',
+    key: supabaseAnonKey ? `${supabaseAnonKey.substring(0, 10)}...` : 'missing'
+  });
+
   // Show error if environment variables are missing
   if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Missing environment variables!');
     return <MissingEnvVars />;
   }
 
