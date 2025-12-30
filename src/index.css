@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 10% 98%;
+    --foreground: 150 15% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 150 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 15% 15%;
+
+    --primary: 152 45% 32%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 150 20% 94%;
+    --secondary-foreground: 152 45% 25%;
+
+    --muted: 150 10% 92%;
+    --muted-foreground: 150 10% 45%;
+
+    --accent: 152 30% 88%;
+    --accent-foreground: 152 45% 25%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 15% 88%;
+    --input: 150 15% 88%;
+    --ring: 152 45% 32%;
+
+    --radius: 1rem;
+
+    /* Custom tokens for study tracker */
+    --success: 152 60% 40%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Heatmap colors - from light to dark green */
+    --heatmap-0: 150 10% 95%;
+    --heatmap-1: 152 35% 85%;
+    --heatmap-2: 152 40% 70%;
+    --heatmap-3: 152 45% 55%;
+    --heatmap-4: 152 50% 40%;
+    --heatmap-5: 152 55% 28%;
+
+    /* Chart colors */
+    --chart-primary: 152 45% 42%;
+    --chart-line: 152 50% 35%;
+    --chart-grid: 150 10% 90%;
+    --chart-dot: 152 55% 28%;
+
+    /* Progress ring */
+    --ring-background: 150 15% 92%;
+    --ring-progress: 152 50% 40%;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(150 10% 10% / 0.03);
+    --shadow-md: 0 4px 12px -2px hsl(150 10% 10% / 0.06);
+    --shadow-lg: 0 12px 32px -4px hsl(150 10% 10% / 0.08);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 150 15% 8%;
+    --foreground: 150 10% 95%;
+
+    --card: 150 15% 12%;
+    --card-foreground: 150 10% 95%;
+
+    --popover: 150 15% 12%;
+    --popover-foreground: 150 10% 95%;
+
+    --primary: 152 50% 45%;
+    --primary-foreground: 150 15% 8%;
+
+    --secondary: 150 15% 18%;
+    --secondary-foreground: 150 10% 90%;
+
+    --muted: 150 15% 18%;
+    --muted-foreground: 150 10% 60%;
+
+    --accent: 150 20% 22%;
+    --accent-foreground: 150 10% 90%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 15% 20%;
+    --input: 150 15% 20%;
+    --ring: 152 50% 45%;
+
+    --heatmap-0: 150 10% 15%;
+    --heatmap-1: 152 25% 22%;
+    --heatmap-2: 152 35% 30%;
+    --heatmap-3: 152 45% 38%;
+    --heatmap-4: 152 50% 45%;
+    --heatmap-5: 152 55% 52%;
+
+    --chart-primary: 152 50% 50%;
+    --chart-line: 152 55% 45%;
+    --chart-grid: 150 15% 20%;
+    --chart-dot: 152 60% 55%;
+
+    --ring-background: 150 15% 18%;
+    --ring-progress: 152 55% 50%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', 'DM Sans', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'DM Sans', 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50;
+    box-shadow: var(--shadow-md);
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+/* Custom animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes progress-fill {
+  from {
+    stroke-dashoffset: 314;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+.animate-progress {
+  animation: progress-fill 1.2s ease-out forwards;
+}
